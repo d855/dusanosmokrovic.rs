@@ -1,0 +1,68 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navLinks = [
+  { label: 'Work', href: '#work' },
+  { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+];
+---
+<header class="border-b-4 border-black dark:border-white bg-background sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div class="flex flex-col -ml-2">
+      <a href="/" class="font-heading text-xl font-black tracking-tight uppercase hover:bg-lime hover:text-black px-2 py-0.5 transition-colors">
+        Dušan Osmokrović
+      </a>
+      <div class="px-2 flex items-center gap-1.5" id="now-playing-header">
+        <span id="now-playing-icon" class="flex items-end gap-[2px] shrink-0 h-3 hidden">
+          <span class="w-[3px] h-3 bg-coral origin-bottom animate-equalizer-1"></span>
+          <span class="w-[3px] h-3 bg-coral origin-bottom animate-equalizer-2"></span>
+          <span class="w-[3px] h-3 bg-coral origin-bottom animate-equalizer-3"></span>
+        </span>
+        <span id="now-playing-text" class="text-[10px] text-muted-foreground whitespace-nowrap font-mono">
+          Not playing
+        </span>
+      </div>
+    </div>
+
+    <nav class="flex items-center gap-1 sm:gap-2">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class="font-heading text-xs sm:text-sm font-bold uppercase tracking-wider hover:bg-foreground hover:text-background px-3 py-2 transition-colors hidden sm:block"
+        >
+          {link.label}
+        </a>
+      ))}
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>
+
+
+<script is:inline>
+  (function() {
+    var textEl = document.getElementById('now-playing-text');
+    var iconEl = document.getElementById('now-playing-icon');
+
+    async function fetchNowPlaying() {
+      if (!textEl) return;
+      try {
+        var res = await fetch('/api/now-playing');
+        var data = await res.json();
+        if (data.isPlaying) {
+          textEl.textContent = data.title + ' — ' + data.artist;
+          iconEl?.classList.remove('hidden');
+        } else {
+          textEl.textContent = 'Not playing';
+          iconEl?.classList.add('hidden');
+        }
+      } catch {}
+    }
+
+    fetchNowPlaying();
+    setInterval(function() {
+      if (!document.hidden) fetchNowPlaying();
+    }, 30000);
+  })();
+</script>
