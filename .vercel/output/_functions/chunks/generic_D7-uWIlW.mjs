@@ -1,5 +1,5 @@
-import { t as typeHandlers, a as types, A as AstroError, N as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, i as isRemoteAllowed, R as RemoteImageNotAllowed, j as joinPaths, E as ExpectedImage, b as isRemotePath, L as LocalImageUsedWrongly, M as MissingImageDimension, U as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, c as UnsupportedImageConversion, d as InvalidImageService, e as ExpectedImageOptions, f as ExpectedNotESMImage, g as ImageMissingAlt, m as maybeRenderHead, h as addAttribute, s as spreadAttributes, r as renderTemplate, k as FontFamilyNotFound, u as unescapeHTML, l as MissingGetFontFileRequestUrl } from './entrypoint_CZhtfCrt.mjs';
-import { c as createComponent } from './astro-component_eFomH1mP.mjs';
+import { t as typeHandlers, a as types, A as AstroError, N as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, i as isRemoteAllowed, R as RemoteImageNotAllowed, j as joinPaths, E as ExpectedImage, b as isRemotePath, L as LocalImageUsedWrongly, M as MissingImageDimension, U as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, c as UnsupportedImageConversion, d as InvalidImageService, e as ExpectedImageOptions, f as ExpectedNotESMImage, g as ImageMissingAlt, m as maybeRenderHead, h as addAttribute, s as spreadAttributes, r as renderTemplate, k as FontFamilyNotFound, u as unescapeHTML, l as MissingGetFontFileRequestUrl } from './entrypoint_BbVBoy0g.mjs';
+import { D as DEFAULT_OUTPUT_FORMAT, V as VALID_SUPPORTED_FORMATS, a as DEFAULT_HASH_PROPS, c as createComponent } from './consts_H8tlbtXL.mjs';
 import 'clsx';
 import * as mime from 'mrmime';
 import 'piccolore';
@@ -145,28 +145,6 @@ async function inferRemoteSize(url, imageConfig) {
     message: NoImageMetadata.message(url)
   });
 }
-
-const VALID_SUPPORTED_FORMATS = [
-  "jpeg",
-  "jpg",
-  "png",
-  "tiff",
-  "webp",
-  "gif",
-  "svg",
-  "avif"
-];
-const DEFAULT_OUTPUT_FORMAT = "webp";
-const DEFAULT_HASH_PROPS = [
-  "src",
-  "width",
-  "height",
-  "format",
-  "quality",
-  "fit",
-  "position",
-  "background"
-];
 
 const DEFAULT_RESOLUTIONS = [
   640,
@@ -524,7 +502,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp_BE--WZtG.mjs'
+      './sharp_DWysJSCE.mjs'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;

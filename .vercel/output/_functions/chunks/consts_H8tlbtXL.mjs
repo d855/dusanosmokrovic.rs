@@ -1,4 +1,4 @@
-import { A as AstroError, q as InvalidComponentArgs } from './entrypoint_CZhtfCrt.mjs';
+import { A as AstroError, x as InvalidComponentArgs } from './entrypoint_BbVBoy0g.mjs';
 
 function validateArgs(args) {
   if (args.length !== 3) return false;
@@ -34,4 +34,36 @@ function createComponent(arg1, moduleId, propagation) {
   }
 }
 
-export { createComponent as c };
+const VALID_INPUT_FORMATS = [
+  "jpeg",
+  "jpg",
+  "png",
+  "tiff",
+  "webp",
+  "gif",
+  "svg",
+  "avif"
+];
+const VALID_SUPPORTED_FORMATS = [
+  "jpeg",
+  "jpg",
+  "png",
+  "tiff",
+  "webp",
+  "gif",
+  "svg",
+  "avif"
+];
+const DEFAULT_OUTPUT_FORMAT = "webp";
+const DEFAULT_HASH_PROPS = [
+  "src",
+  "width",
+  "height",
+  "format",
+  "quality",
+  "fit",
+  "position",
+  "background"
+];
+
+export { DEFAULT_OUTPUT_FORMAT as D, VALID_SUPPORTED_FORMATS as V, DEFAULT_HASH_PROPS as a, VALID_INPUT_FORMATS as b, createComponent as c };

@@ -193,3 +193,41 @@
 .animate-equalizer-1 { animation: equalizer-1 0.8s ease-in-out infinite; }
 .animate-equalizer-2 { animation: equalizer-2 0.6s ease-in-out infinite; }
 .animate-equalizer-3 { animation: equalizer-3 0.7s ease-in-out infinite; }
+
+@keyframes memphis-float {
+  0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, 0deg)); }
+  50% { transform: translateY(-14px) rotate(var(--tw-rotate, 0deg)); }
+}
+
+@keyframes memphis-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-memphis-float {
+  animation: memphis-float 5s ease-in-out infinite;
+}
+
+.animate-memphis-spin {
+  animation: memphis-spin 18s linear infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-animate-delay="1"] { transition-delay: 0.1s; }
+[data-animate-delay="2"] { transition-delay: 0.2s; }
+[data-animate-delay="3"] { transition-delay: 0.3s; }

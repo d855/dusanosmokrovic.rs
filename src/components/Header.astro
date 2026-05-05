@@ -3,7 +3,7 @@ import ThemeToggle from './ThemeToggle.astro';
 
 const navLinks = [
   { label: 'Work', href: '#work' },
-  { label: 'About', href: '#about' },
+  { label: 'Writings', href: '#writings' },
   { label: 'Contact', href: '#contact' },
 ];
 ---
@@ -35,7 +35,28 @@ const navLinks = [
         </a>
       ))}
       <ThemeToggle />
+      <button
+        id="mobile-menu-btn"
+        class="sm:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px] ml-1"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <span class="w-5 h-[3px] bg-foreground transition-all duration-200 origin-center" id="burger-top"></span>
+        <span class="w-5 h-[3px] bg-foreground transition-all duration-200" id="burger-mid"></span>
+        <span class="w-5 h-[3px] bg-foreground transition-all duration-200 origin-center" id="burger-bot"></span>
+      </button>
     </nav>
+  </div>
+
+  <div id="mobile-menu" class="sm:hidden hidden border-t-2 border-black dark:border-white bg-background">
+    {navLinks.map(link => (
+      <a
+        href={link.href}
+        class="block font-heading text-sm font-bold uppercase tracking-wider px-6 py-4 border-b border-border hover:bg-foreground hover:text-background transition-colors mobile-nav-link"
+      >
+        {link.label}
+      </a>
+    ))}
   </div>
 </header>
 
@@ -64,5 +85,35 @@ const navLinks = [
     setInterval(function() {
       if (!document.hidden) fetchNowPlaying();
     }, 30000);
+  })();
+
+  (function() {
+    var btn = document.getElementById('mobile-menu-btn');
+    var menu = document.getElementById('mobile-menu');
+    var top = document.getElementById('burger-top');
+    var mid = document.getElementById('burger-mid');
+    var bot = document.getElementById('burger-bot');
+    if (!btn || !menu) return;
+
+    var open = false;
+    btn.addEventListener('click', function() {
+      open = !open;
+      menu.classList.toggle('hidden', !open);
+      btn.setAttribute('aria-expanded', String(open));
+      top.style.transform = open ? 'rotate(45deg) translate(2.5px, 2.5px)' : '';
+      mid.style.opacity = open ? '0' : '1';
+      bot.style.transform = open ? 'rotate(-45deg) translate(2.5px, -2.5px)' : '';
+    });
+
+    menu.querySelectorAll('.mobile-nav-link').forEach(function(link) {
+      link.addEventListener('click', function() {
+        open = false;
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        top.style.transform = '';
+        mid.style.opacity = '1';
+        bot.style.transform = '';
+      });
+    });
   })();
 </script>

@@ -1,18 +1,49 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
 const marqueeText = 'SOFTWARE ENGINEER · WEB DEVELOPER · OPEN SOURCE · CLEAN CODE · ';
-const stack = ['TypeScript', 'React', 'Node.js', 'Laravel', 'Astro', 'PostgreSQL'];
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+	.slice(0, 3);
 ---
 
 <Layout>
 	<section class="relative min-h-[calc(100vh-65px)] flex flex-col justify-between overflow-hidden">
-		<!-- Main hero content -->
-		<div class="max-w-7xl mx-auto px-6 pt-16 sm:pt-24 pb-12 w-full">
-			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+		<!-- Grain overlay -->
+		<div class="pointer-events-none absolute inset-0 z-0 opacity-[0.035] dark:opacity-[0.06]" id="grain"></div>
 
-				<!-- Left column: headline -->
-				<div class="lg:col-span-7 relative">
+		<!-- Memphis floating shapes -->
+		<div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" id="memphis-container" aria-hidden="true">
+			<!-- Circle — top right -->
+			<div data-memphis data-speed="0.8" class="absolute -top-8 right-[12%] w-28 h-28 sm:w-36 sm:h-36 rounded-full border-[4px] border-black dark:border-white bg-coral/30 dark:bg-coral/20 animate-memphis-float transition-transform duration-700 ease-out" style="animation-delay: 0s"></div>
+			<!-- Small filled circle -->
+			<div data-memphis data-speed="1.2" class="absolute top-[30%] right-[8%] w-8 h-8 rounded-full bg-foreground/10 animate-memphis-float transition-transform duration-700 ease-out" style="animation-delay: 1.2s"></div>
+			<!-- Triangle — mid left -->
+			<div data-memphis data-speed="0.6" class="absolute top-[40%] -left-4 sm:left-[5%] w-0 h-0 animate-memphis-spin transition-[margin] duration-700 ease-out" style="border-left: 30px solid transparent; border-right: 30px solid transparent; border-bottom: 52px solid var(--lime); animation-delay: 0.5s"></div>
+			<!-- Square — bottom right -->
+			<div data-memphis data-speed="1.0" class="absolute bottom-[20%] right-[18%] w-16 h-16 sm:w-20 sm:h-20 border-[4px] border-black dark:border-white bg-lime/25 dark:bg-lime/15 rotate-12 animate-memphis-float transition-transform duration-700 ease-out" style="animation-delay: 0.8s"></div>
+			<!-- Cross / plus — top left area -->
+			<div data-memphis data-speed="1.4" class="absolute top-[15%] left-[20%] w-10 h-10 animate-memphis-float transition-transform duration-700 ease-out" style="animation-delay: 1.5s">
+				<div class="absolute top-1/2 left-0 w-full h-[4px] bg-coral -translate-y-1/2"></div>
+				<div class="absolute left-1/2 top-0 h-full w-[4px] bg-coral -translate-x-1/2"></div>
+			</div>
+			<!-- Squiggly line (zigzag via SVG) — bottom left -->
+			<svg data-memphis data-speed="0.5" class="absolute bottom-[12%] left-[10%] w-24 h-8 animate-memphis-float transition-transform duration-700 ease-out" style="animation-delay: 2s" viewBox="0 0 96 32" fill="none">
+				<path d="M0 24 L12 8 L24 24 L36 8 L48 24 L60 8 L72 24 L84 8 L96 24" stroke="currentColor" stroke-width="4" stroke-linecap="square" class="text-foreground/20"/>
+			</svg>
+			<!-- Donut — right mid -->
+			<div data-memphis data-speed="0.9" class="absolute top-[55%] right-[5%] sm:right-[10%] w-14 h-14 rounded-full border-[5px] border-lime/40 animate-memphis-spin transition-transform duration-700 ease-out" style="animation-delay: 0.3s"></div>
+			<!-- Tiny dots scatter -->
+			<div data-memphis data-speed="1.8" class="absolute top-[22%] right-[35%] w-3 h-3 rounded-full bg-coral/40 animate-memphis-float transition-transform duration-700 ease-out" style="animation-delay: 1.8s"></div>
+			<div data-memphis data-speed="1.6" class="absolute top-[65%] left-[30%] w-3 h-3 rounded-full bg-lime/50 animate-memphis-float transition-transform duration-700 ease-out" style="animation-delay: 2.2s"></div>
+			<div data-memphis data-speed="2.0" class="absolute top-[75%] right-[40%] w-2 h-2 rounded-full bg-foreground/15 animate-memphis-float transition-transform duration-700 ease-out" style="animation-delay: 0.7s"></div>
+		</div>
+
+		<!-- Main hero content -->
+		<div class="relative z-10 max-w-7xl mx-auto px-6 pt-16 sm:pt-24 pb-12 w-full">
+			<div class="max-w-3xl">
 					<p
 						class="font-heading text-sm font-bold uppercase tracking-widest mb-6 animate-fade-up"
 						style="animation-delay: 0.1s"
@@ -65,55 +96,6 @@ const stack = ['TypeScript', 'React', 'Node.js', 'Laravel', 'Astro', 'PostgreSQL
 						</a>
 					</div>
 				</div>
-
-				<!-- Right column: widget cards -->
-				<div class="lg:col-span-5 relative lg:pt-4 flex flex-col gap-5">
-					<!-- Floating Serbia badge -->
-					<div
-						class="hidden lg:block absolute -top-6 -right-4 z-10 border-3 border-black bg-coral text-white px-4 py-2 font-heading text-xs font-bold uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] animate-float -rotate-2"
-						style="animation-delay: 0.6s"
-					>
-						Based in Serbia
-					</div>
-
-					<!-- Last Commit -->
-					<div
-						class="border-3 border-black dark:border-white bg-background p-5 shadow-[6px_6px_0px_0px_var(--lime)] animate-slide-in-right"
-						style="animation-delay: 0.4s"
-					>
-						<div class="flex items-center gap-2 mb-3">
-							<svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
-								<path d="M11.93 8.5a4.002 4.002 0 0 1-7.86 0H.75a.75.75 0 0 1 0-1.5h3.32a4.002 4.002 0 0 1 7.86 0h3.32a.75.75 0 0 1 0 1.5Zm-1.43-.25a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"/>
-							</svg>
-							<span class="font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground">Last Commit</span>
-						</div>
-						<div>
-							<p id="commit-msg" class="font-heading text-sm font-bold truncate mb-1">Loading...</p>
-							<p id="commit-meta" class="text-xs text-muted-foreground font-mono truncate">&mdash;</p>
-						</div>
-					</div>
-
-					<!-- Current Stack -->
-					<div
-						class="border-3 border-black dark:border-white bg-background p-5 shadow-[6px_6px_0px_0px_var(--coral)] animate-slide-in-right"
-						style="animation-delay: 0.5s"
-					>
-						<div class="flex items-center gap-2 mb-3">
-							<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-								<path stroke-linecap="square" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0L12 17.25l-5.571-3m11.142 0L21.75 16.5 12 21.75l-9.75-5.25 4.179-2.25" />
-							</svg>
-							<span class="font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground">Current Stack</span>
-						</div>
-						<div class="flex flex-wrap gap-2">
-							{stack.map((tech) => (
-								<span class="border-2 border-black dark:border-white px-3 py-1 text-xs font-bold uppercase tracking-wider bg-background hover:bg-lime hover:text-black transition-colors cursor-default">
-									{tech}
-								</span>
-							))}
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 
 		<!-- Marquee ticker -->
@@ -127,44 +109,199 @@ const stack = ['TypeScript', 'React', 'Node.js', 'Laravel', 'Astro', 'PostgreSQL
 			</div>
 		</div>
 	</section>
+
+	<!-- Work Section -->
+	<section id="work" class="relative py-24 sm:py-32 px-6">
+		<div class="max-w-7xl mx-auto">
+			<div class="flex items-center gap-4 mb-16" data-animate>
+				<h2 class="font-heading text-4xl sm:text-5xl font-black uppercase tracking-tight">Latest Work</h2>
+				<div class="flex-1 h-[4px] bg-foreground"></div>
+			</div>
+
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<!-- Project 1 -->
+				<article data-animate data-animate-delay="1" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--lime)] transition-all duration-200">
+					<div class="aspect-video bg-muted border-b-3 border-black dark:border-white flex items-center justify-center">
+						<span class="font-heading text-sm uppercase tracking-widest text-muted-foreground">Screenshot</span>
+					</div>
+					<div class="p-6">
+						<div class="flex flex-wrap gap-2 mb-3">
+							<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">React</span>
+							<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">TypeScript</span>
+						</div>
+						<h3 class="font-heading text-xl font-bold uppercase mb-2">Project Alpha</h3>
+						<p class="text-muted-foreground text-sm leading-relaxed mb-4">Full-stack web app with real-time collaboration features and a slick dashboard interface.</p>
+						<a href="#" class="inline-flex items-center gap-2 font-heading text-sm font-bold uppercase tracking-wider group-hover:text-coral transition-colors">
+							View project <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
+						</a>
+					</div>
+				</article>
+
+				<!-- Project 2 -->
+				<article data-animate data-animate-delay="2" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--coral)] transition-all duration-200">
+					<div class="aspect-video bg-muted border-b-3 border-black dark:border-white flex items-center justify-center">
+						<span class="font-heading text-sm uppercase tracking-widest text-muted-foreground">Screenshot</span>
+					</div>
+					<div class="p-6">
+						<div class="flex flex-wrap gap-2 mb-3">
+							<span class="text-xs font-bold uppercase tracking-wider bg-coral text-white px-2 py-0.5 border border-black">Next.js</span>
+							<span class="text-xs font-bold uppercase tracking-wider bg-coral text-white px-2 py-0.5 border border-black">Prisma</span>
+						</div>
+						<h3 class="font-heading text-xl font-bold uppercase mb-2">Project Beta</h3>
+						<p class="text-muted-foreground text-sm leading-relaxed mb-4">E-commerce platform with custom CMS, payment integration, and inventory management system.</p>
+						<a href="#" class="inline-flex items-center gap-2 font-heading text-sm font-bold uppercase tracking-wider group-hover:text-coral transition-colors">
+							View project <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
+						</a>
+					</div>
+				</article>
+
+				<!-- Project 3 -->
+				<article data-animate data-animate-delay="3" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--lime)] transition-all duration-200">
+					<div class="aspect-video bg-muted border-b-3 border-black dark:border-white flex items-center justify-center">
+						<span class="font-heading text-sm uppercase tracking-widest text-muted-foreground">Screenshot</span>
+					</div>
+					<div class="p-6">
+						<div class="flex flex-wrap gap-2 mb-3">
+							<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Astro</span>
+							<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Tailwind</span>
+						</div>
+						<h3 class="font-heading text-xl font-bold uppercase mb-2">Project Gamma</h3>
+						<p class="text-muted-foreground text-sm leading-relaxed mb-4">Open-source developer tool that simplifies API testing with an intuitive visual interface.</p>
+						<a href="#" class="inline-flex items-center gap-2 font-heading text-sm font-bold uppercase tracking-wider group-hover:text-coral transition-colors">
+							View project <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
+						</a>
+					</div>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<!-- Writings Section -->
+	<section id="writings" class="relative py-24 sm:py-32 px-6 border-t-4 border-black dark:border-white">
+		<div class="max-w-7xl mx-auto">
+			<div class="flex items-center gap-4 mb-16" data-animate>
+				<h2 class="font-heading text-4xl sm:text-5xl font-black uppercase tracking-tight">Writings</h2>
+				<div class="flex-1 h-[4px] bg-foreground"></div>
+			</div>
+
+			<div class="grid gap-6 max-w-3xl">
+				{posts.map((post, i) => (
+					<a href={`/blog/${post.id}`} data-animate data-animate-delay={String(i + 1)} class="group flex items-baseline justify-between gap-4 border-b-2 border-border pb-6 hover:border-coral transition-colors">
+						<div>
+							<h3 class="font-heading text-lg sm:text-xl font-bold uppercase group-hover:text-coral transition-colors">{post.data.title}</h3>
+							<p class="text-muted-foreground text-sm mt-1">{post.data.description}</p>
+						</div>
+						<span class="text-xs text-muted-foreground whitespace-nowrap font-mono">
+							{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit' }).replace('/', '-')}
+						</span>
+					</a>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer id="contact" class="border-t-4 border-black dark:border-white bg-foreground text-background py-16 px-6">
+		<div class="max-w-7xl mx-auto">
+			<div class="grid md:grid-cols-2 gap-12 items-start">
+				<div data-animate>
+					<h2 class="font-heading text-3xl sm:text-4xl font-black uppercase tracking-tight mb-4">Let's connect</h2>
+					<p class="text-background/70 max-w-md leading-relaxed">Got a project in mind, want to collaborate, or just say hi? I'm always open to interesting conversations.</p>
+					<a href="mailto:dosmokrovic@yahoo.com" class="inline-block mt-6 font-heading font-bold text-lg border-b-2 border-lime hover:text-lime transition-colors">dosmokrovic@yahoo.com</a>
+				</div>
+
+				<div data-animate data-animate-delay="1" class="flex flex-col gap-4 md:items-end">
+					<span class="font-heading text-sm font-bold uppercase tracking-widest text-background/50">Find me on</span>
+					<div class="flex gap-4">
+						<a href="https://github.com/dusanosmokrovic" target="_blank" rel="noopener" class="border-2 border-background/30 hover:border-lime hover:text-lime px-5 py-3 font-heading font-bold text-sm uppercase tracking-wider transition-colors">GitHub</a>
+						<a href="https://linkedin.com/in/dusanosmokrovic" target="_blank" rel="noopener" class="border-2 border-background/30 hover:border-lime hover:text-lime px-5 py-3 font-heading font-bold text-sm uppercase tracking-wider transition-colors">LinkedIn</a>
+						<a href="https://x.com/dusanosmokrovic" target="_blank" rel="noopener" class="border-2 border-background/30 hover:border-lime hover:text-lime px-5 py-3 font-heading font-bold text-sm uppercase tracking-wider transition-colors">X</a>
+					</div>
+					<p class="text-background/40 text-xs mt-8 font-mono">&copy; 2025 Dušan Osmokrović</p>
+				</div>
+			</div>
+		</div>
+	</footer>
 </Layout>
 
 <script is:inline>
-	(async function fetchLastCommit() {
-		const username = 'd855';
-		try {
-			const res = await fetch(`https://api.github.com/users/${username}/events/public?per_page=10`);
-			if (!res.ok) return;
-			const events = await res.json();
-			const push = events.find(e => e.type === 'PushEvent');
-			if (!push) return;
-			const commit = push.payload.commits?.[push.payload.commits.length - 1];
-			if (!commit) return;
+	(function memphisInteract() {
+		const container = document.getElementById('memphis-container');
+		if (!container || window.matchMedia('(pointer: coarse)').matches) return;
 
-			const repo = push.repo.name.split('/')[1];
-			const sha = commit.sha.substring(0, 7);
-			const msg = commit.message.split('\n')[0];
-			const date = new Date(push.created_at);
-			const ago = timeAgo(date);
+		const shapes = container.querySelectorAll('[data-memphis]');
+		let mouseX = -1000, mouseY = -1000;
+		let rafId = null;
 
-			const msgEl = document.getElementById('commit-msg');
-			const metaEl = document.getElementById('commit-meta');
-			if (msgEl && metaEl) {
-				msgEl.textContent = msg;
-				msgEl.title = msg;
-				metaEl.textContent = `${sha} · ${repo} · ${ago}`;
-			}
-		} catch {}
+		document.addEventListener('mousemove', function(e) {
+			mouseX = e.clientX;
+			mouseY = e.clientY;
+			if (!rafId) rafId = requestAnimationFrame(update);
+		});
+
+		function update() {
+			rafId = null;
+			const containerRect = container.getBoundingClientRect();
+
+			shapes.forEach(function(shape) {
+				const rect = shape.getBoundingClientRect();
+				const cx = rect.left + rect.width / 2;
+				const cy = rect.top + rect.height / 2;
+				const dx = cx - mouseX;
+				const dy = cy - mouseY;
+				const dist = Math.sqrt(dx * dx + dy * dy);
+				const radius = 300;
+
+				if (dist < radius) {
+					const speed = parseFloat(shape.dataset.speed) || 1;
+					const force = (1 - dist / radius) * 40 * speed;
+					const angle = Math.atan2(dy, dx);
+					const tx = Math.cos(angle) * force;
+					const ty = Math.sin(angle) * force;
+					shape.style.translate = tx + 'px ' + ty + 'px';
+				} else {
+					shape.style.translate = '0px 0px';
+				}
+			});
+		}
+
+		document.addEventListener('mouseleave', function() {
+			shapes.forEach(function(shape) {
+				shape.style.translate = '0px 0px';
+			});
+		});
 	})();
 
-	function timeAgo(date) {
-		const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-		if (seconds < 60) return 'just now';
-		const minutes = Math.floor(seconds / 60);
-		if (minutes < 60) return minutes + 'm ago';
-		const hours = Math.floor(minutes / 60);
-		if (hours < 24) return hours + 'h ago';
-		const days = Math.floor(hours / 24);
-		return days + 'd ago';
-	}
+	(function scrollAnimate() {
+		var els = document.querySelectorAll('[data-animate]');
+		if (!els.length) return;
+		var observer = new IntersectionObserver(function(entries) {
+			entries.forEach(function(entry) {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('is-visible');
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.1 });
+		els.forEach(function(el) { observer.observe(el); });
+	})();
+
+	(function grain() {
+		const canvas = document.createElement('canvas');
+		const ctx = canvas.getContext('2d');
+		canvas.width = 256;
+		canvas.height = 256;
+		const imageData = ctx.createImageData(256, 256);
+		const data = imageData.data;
+		for (let i = 0; i < data.length; i += 4) {
+			const v = Math.random() * 255;
+			data[i] = v;
+			data[i + 1] = v;
+			data[i + 2] = v;
+			data[i + 3] = 255;
+		}
+		ctx.putImageData(imageData, 0, 0);
+		const el = document.getElementById('grain');
+		if (el) el.style.backgroundImage = `url(${canvas.toDataURL()})`;
+	})();
 </script>
