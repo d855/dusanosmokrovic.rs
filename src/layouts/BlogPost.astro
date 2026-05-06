@@ -6,9 +6,10 @@ interface Props {
 	description: string;
 	date: Date;
 	tags?: string[];
+	readingMinutes: number;
 }
 
-const { title, description, date, tags } = Astro.props;
+const { title, description, date, tags, readingMinutes } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
 	year: 'numeric',
@@ -32,6 +33,8 @@ const formattedDate = date.toLocaleDateString('en-US', {
 					<time class="font-mono text-sm text-muted-foreground" datetime={date.toISOString()}>
 						{formattedDate}
 					</time>
+					<span class="text-muted-foreground">·</span>
+					<span class="font-mono text-sm text-muted-foreground">{readingMinutes} min read</span>
 					{tags && tags.length > 0 && (
 						<span class="text-muted-foreground">·</span>
 						<div class="flex gap-2">

@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-
-const marqueeText = 'SOFTWARE ENGINEER · WEB DEVELOPER · OPEN SOURCE · CLEAN CODE · ';
+import { readingTime } from '../lib/utils';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-	.slice(0, 3);
+	.slice(0, 3)
+	.map(post => ({ ...post, readingMinutes: readingTime(post.body ?? '') }));
 ---
 
 <Layout>
@@ -42,7 +42,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 		</div>
 
 		<!-- Main hero content -->
-		<div class="relative z-10 max-w-7xl mx-auto px-6 pt-16 sm:pt-24 pb-12 w-full">
+		<div class="relative z-10 max-w-7xl mx-auto px-6 pt-8 sm:pt-12 pb-12 w-full">
 			<div class="max-w-3xl">
 					<p
 						class="font-heading text-sm font-bold uppercase tracking-widest mb-6 animate-fade-up"
@@ -58,12 +58,12 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 					>
 						I build
 						<span class="relative inline-block">
-							<span class="relative z-10">things</span>
+							<span class="relative z-10">software</span>
 							<span class="absolute bottom-1 left-0 w-full h-4 sm:h-6 bg-coral -z-0 -rotate-1"></span>
 						</span>
-						<br />for the
+						<br />that solves
 						<span class="relative inline-block">
-							<span class="relative z-10">web</span>
+							<span class="relative z-10">real problems</span>
 							<span class="absolute bottom-1 left-0 w-full h-4 sm:h-6 bg-lime -z-0 rotate-1"></span>
 						</span>
 					</h1>
@@ -98,16 +98,6 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 				</div>
 		</div>
 
-		<!-- Marquee ticker -->
-		<div class="border-t-4 border-b-4 border-black dark:border-white bg-lime text-black py-3 overflow-hidden">
-			<div class="flex whitespace-nowrap animate-marquee">
-				{[...Array(4)].map(() => (
-					<span class="font-heading text-sm font-black tracking-[0.2em] uppercase">
-						{marqueeText}
-					</span>
-				))}
-			</div>
-		</div>
 	</section>
 
 	<!-- Work Section -->
@@ -119,57 +109,48 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 			</div>
 
 			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-				<!-- Project 1 -->
-				<article data-animate data-animate-delay="1" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--lime)] transition-all duration-200">
-					<div class="aspect-video bg-muted border-b-3 border-black dark:border-white flex items-center justify-center">
-						<span class="font-heading text-sm uppercase tracking-widest text-muted-foreground">Screenshot</span>
-					</div>
-					<div class="p-6">
-						<div class="flex flex-wrap gap-2 mb-3">
-							<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">React</span>
-							<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">TypeScript</span>
-						</div>
-						<h3 class="font-heading text-xl font-bold uppercase mb-2">Project Alpha</h3>
-						<p class="text-muted-foreground text-sm leading-relaxed mb-4">Full-stack web app with real-time collaboration features and a slick dashboard interface.</p>
-						<a href="#" class="inline-flex items-center gap-2 font-heading text-sm font-bold uppercase tracking-wider group-hover:text-coral transition-colors">
-							View project <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
-						</a>
+				<!-- B2B Wholesale Ecommerce -->
+				<article data-animate data-animate-delay="1" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--lime)] transition-all duration-200 p-6 flex flex-col">
+					<span class="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">01 / Ecommerce</span>
+					<h3 class="font-heading text-xl font-bold uppercase mb-3 leading-tight">B2B Wholesale Ecommerce Platform</h3>
+					<p class="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">
+						Multi-tier pricing, customer-specific catalogs, bulk order flows, and quote management. Account managers handle hundreds of B2B buyers with negotiated rates, credit limits, and per-customer SKU visibility. Custom checkout with PO numbers and net-terms support.
+					</p>
+					<div class="flex flex-wrap gap-2 pt-4 border-t-2 border-border">
+						<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Laravel</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Inertia</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">React</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Postgres</span>
 					</div>
 				</article>
 
-				<!-- Project 2 -->
-				<article data-animate data-animate-delay="2" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--coral)] transition-all duration-200">
-					<div class="aspect-video bg-muted border-b-3 border-black dark:border-white flex items-center justify-center">
-						<span class="font-heading text-sm uppercase tracking-widest text-muted-foreground">Screenshot</span>
-					</div>
-					<div class="p-6">
-						<div class="flex flex-wrap gap-2 mb-3">
-							<span class="text-xs font-bold uppercase tracking-wider bg-coral text-white px-2 py-0.5 border border-black">Next.js</span>
-							<span class="text-xs font-bold uppercase tracking-wider bg-coral text-white px-2 py-0.5 border border-black">Prisma</span>
-						</div>
-						<h3 class="font-heading text-xl font-bold uppercase mb-2">Project Beta</h3>
-						<p class="text-muted-foreground text-sm leading-relaxed mb-4">E-commerce platform with custom CMS, payment integration, and inventory management system.</p>
-						<a href="#" class="inline-flex items-center gap-2 font-heading text-sm font-bold uppercase tracking-wider group-hover:text-coral transition-colors">
-							View project <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
-						</a>
+				<!-- Inquiry Platform -->
+				<article data-animate data-animate-delay="2" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--coral)] transition-all duration-200 p-6 flex flex-col">
+					<span class="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">02 / SaaS</span>
+					<h3 class="font-heading text-xl font-bold uppercase mb-3 leading-tight">Inquiry Platform</h3>
+					<p class="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">
+						Lead intake and routing tool. Public forms feed a back-office where teams triage, assign, and respond to inquiries with full thread history. Role-based access, SLA tracking, email notifications, and a clean Inertia-powered UI for non-technical staff.
+					</p>
+					<div class="flex flex-wrap gap-2 pt-4 border-t-2 border-border">
+						<span class="text-xs font-bold uppercase tracking-wider bg-coral text-white px-2 py-0.5 border border-black">Laravel</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-coral text-white px-2 py-0.5 border border-black">Inertia</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-coral text-white px-2 py-0.5 border border-black">React</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-coral text-white px-2 py-0.5 border border-black">Postgres</span>
 					</div>
 				</article>
 
-				<!-- Project 3 -->
-				<article data-animate data-animate-delay="3" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--lime)] transition-all duration-200">
-					<div class="aspect-video bg-muted border-b-3 border-black dark:border-white flex items-center justify-center">
-						<span class="font-heading text-sm uppercase tracking-widest text-muted-foreground">Screenshot</span>
-					</div>
-					<div class="p-6">
-						<div class="flex flex-wrap gap-2 mb-3">
-							<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Astro</span>
-							<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Tailwind</span>
-						</div>
-						<h3 class="font-heading text-xl font-bold uppercase mb-2">Project Gamma</h3>
-						<p class="text-muted-foreground text-sm leading-relaxed mb-4">Open-source developer tool that simplifies API testing with an intuitive visual interface.</p>
-						<a href="#" class="inline-flex items-center gap-2 font-heading text-sm font-bold uppercase tracking-wider group-hover:text-coral transition-colors">
-							View project <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
-						</a>
+				<!-- WeChat Mini App -->
+				<article data-animate data-animate-delay="3" class="group border-3 border-black dark:border-white bg-card hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--lime)] transition-all duration-200 p-6 flex flex-col">
+					<span class="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">03 / Mobile</span>
+					<h3 class="font-heading text-xl font-bold uppercase mb-3 leading-tight">WeChat Mini App</h3>
+					<p class="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">
+						Mobile companion to the Inquiry Platform, built natively inside WeChat for the Chinese market. Users submit and track inquiries on the go — WeChat login, QR code login for the web app, and inquiry threads — all powered by the same Laravel API.
+					</p>
+					<div class="flex flex-wrap gap-2 pt-4 border-t-2 border-border">
+						<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">WXML</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">WXSS</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Laravel API</span>
+						<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">Postgres</span>
 					</div>
 				</article>
 			</div>
@@ -191,8 +172,9 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 							<h3 class="font-heading text-lg sm:text-xl font-bold uppercase group-hover:text-coral transition-colors">{post.data.title}</h3>
 							<p class="text-muted-foreground text-sm mt-1">{post.data.description}</p>
 						</div>
-						<span class="text-xs text-muted-foreground whitespace-nowrap font-mono">
+						<span class="text-xs text-muted-foreground whitespace-nowrap font-mono text-right">
 							{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit' }).replace('/', '-')}
+							<span class="block">{post.readingMinutes} min</span>
 						</span>
 					</a>
 				))}
@@ -213,9 +195,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 				<div data-animate data-animate-delay="1" class="flex flex-col gap-4 md:items-end">
 					<span class="font-heading text-sm font-bold uppercase tracking-widest text-background/50">Find me on</span>
 					<div class="flex gap-4">
-						<a href="https://github.com/dusanosmokrovic" target="_blank" rel="noopener" class="border-2 border-background/30 hover:border-lime hover:text-lime px-5 py-3 font-heading font-bold text-sm uppercase tracking-wider transition-colors">GitHub</a>
+						<a href="https://github.com/d855" target="_blank" rel="noopener" class="border-2 border-background/30 hover:border-lime hover:text-lime px-5 py-3 font-heading font-bold text-sm uppercase tracking-wider transition-colors">GitHub</a>
 						<a href="https://linkedin.com/in/dusanosmokrovic" target="_blank" rel="noopener" class="border-2 border-background/30 hover:border-lime hover:text-lime px-5 py-3 font-heading font-bold text-sm uppercase tracking-wider transition-colors">LinkedIn</a>
-						<a href="https://x.com/dusanosmokrovic" target="_blank" rel="noopener" class="border-2 border-background/30 hover:border-lime hover:text-lime px-5 py-3 font-heading font-bold text-sm uppercase tracking-wider transition-colors">X</a>
 					</div>
 					<p class="text-background/40 text-xs mt-8 font-mono">&copy; 2025 Dušan Osmokrović</p>
 				</div>
