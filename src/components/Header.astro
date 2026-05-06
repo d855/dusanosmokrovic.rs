@@ -10,7 +10,7 @@ const navLinks = [
 <header class="border-b-4 border-black dark:border-white bg-background sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-2">
     <div class="flex flex-col -ml-2 min-w-0 flex-1">
-      <a href="/" class="font-heading text-lg sm:text-xl font-black tracking-tight uppercase hover:bg-lime hover:text-black px-2 py-0.5 transition-colors truncate">
+      <a href="/" class="font-heading text-base sm:text-xl font-black tracking-tight uppercase hover:bg-lime hover:text-black px-2 py-0.5 transition-colors block whitespace-nowrap overflow-hidden text-ellipsis">
         Dušan Osmokrović
       </a>
       <div class="px-2 flex items-center gap-1.5 min-w-0" id="now-playing-header">
@@ -37,7 +37,7 @@ const navLinks = [
       <ThemeToggle />
       <button
         id="mobile-menu-btn"
-        class="sm:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px] -mr-2"
+        class="sm:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px]"
         aria-label="Toggle menu"
         aria-expanded="false"
       >
@@ -100,9 +100,9 @@ const navLinks = [
       open = !open;
       menu.classList.toggle('hidden', !open);
       btn.setAttribute('aria-expanded', String(open));
-      top.style.transform = open ? 'rotate(45deg) translate(2.5px, 2.5px)' : '';
+      top.style.transform = open ? 'translateY(8px) rotate(45deg)' : '';
       mid.style.opacity = open ? '0' : '1';
-      bot.style.transform = open ? 'rotate(-45deg) translate(2.5px, -2.5px)' : '';
+      bot.style.transform = open ? 'translateY(-8px) rotate(-45deg)' : '';
     });
 
     menu.querySelectorAll('.mobile-nav-link').forEach(function(link) {
