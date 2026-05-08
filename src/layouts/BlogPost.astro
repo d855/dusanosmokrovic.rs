@@ -19,38 +19,37 @@ const formattedDate = date.toLocaleDateString('en-US', {
 ---
 
 <Layout title={`${title} — Dušan Osmokrović`} description={description}>
-	<article class="py-16 sm:py-24 px-6">
-		<div class="max-w-3xl mx-auto">
+	<article class="px-6 sm:px-10 py-20 sm:py-32">
+		<div class="max-w-2xl mx-auto">
 			<a
-				href="/#writings"
-				class="inline-flex items-center gap-2 font-heading text-sm font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors mb-12"
+				href="/#writing"
+				class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-16 group"
 			>
-				<span>&larr;</span> Back to writings
+				<span class="text-clay transition-transform group-hover:-translate-x-1">←</span>
+				<span class="link-grow">Back to writing</span>
 			</a>
 
-			<header class="mb-12 border-b-4 border-black dark:border-white pb-8">
-				<div class="flex items-center gap-3 mb-4">
-					<time class="font-mono text-sm text-muted-foreground" datetime={date.toISOString()}>
-						{formattedDate}
-					</time>
-					<span class="text-muted-foreground">·</span>
-					<span class="font-mono text-sm text-muted-foreground">{readingMinutes} min read</span>
+			<header class="mb-16 animate-fade-up">
+				<div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-8">
+					<time class="eyebrow" datetime={date.toISOString()}>{formattedDate}</time>
+					<span class="text-border">·</span>
+					<span class="eyebrow">{readingMinutes} min read</span>
 					{tags && tags.length > 0 && (
-						<span class="text-muted-foreground">·</span>
-						<div class="flex gap-2">
-							{tags.map(tag => (
-								<span class="text-xs font-bold uppercase tracking-wider bg-lime text-black px-2 py-0.5 border border-black">
-									{tag}
-								</span>
-							))}
-						</div>
+						<>
+							<span class="text-border">·</span>
+							<div class="flex gap-2">
+								{tags.map(tag => (
+									<span class="font-mono text-[10px] uppercase tracking-wider text-clay border border-clay/30 rounded-full px-2 py-0.5">{tag}</span>
+								))}
+							</div>
+						</>
 					)}
 				</div>
-				<h1 class="font-heading text-3xl sm:text-5xl font-black uppercase leading-tight tracking-tight">
-					{title}
-				</h1>
-				<p class="text-lg text-muted-foreground mt-4">{description}</p>
+				<h1 class="font-display text-5xl sm:text-7xl leading-[1.02] tracking-[-0.025em]">{title}</h1>
+				<p class="text-lg text-foreground/70 mt-6 leading-relaxed">{description}</p>
 			</header>
+
+			<div class="hairline mb-16"></div>
 
 			<div class="prose">
 				<slot />
@@ -62,45 +61,57 @@ const formattedDate = date.toLocaleDateString('en-US', {
 <style>
 	@reference "../styles/global.css";
 	.prose {
-		@apply text-base sm:text-lg leading-relaxed;
+		@apply text-[17px] leading-[1.75] text-foreground/85;
 	}
 	.prose :global(h2) {
-		@apply font-heading text-2xl sm:text-3xl font-black uppercase tracking-tight mt-12 mb-4;
+		@apply font-display text-3xl sm:text-4xl tracking-tight mt-16 mb-5 text-foreground;
 	}
 	.prose :global(h3) {
-		@apply font-heading text-xl sm:text-2xl font-bold uppercase tracking-tight mt-8 mb-3;
+		@apply font-display text-2xl sm:text-3xl tracking-tight mt-12 mb-4 text-foreground;
 	}
 	.prose :global(p) {
-		@apply mb-6 text-foreground/85;
+		@apply mb-6;
 	}
 	.prose :global(a) {
-		@apply border-b-2 border-coral hover:text-coral transition-colors;
+		@apply text-clay;
+		background-image: linear-gradient(currentColor, currentColor);
+		background-size: 100% 1px;
+		background-repeat: no-repeat;
+		background-position: 0 100%;
+		transition: background-size 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+	}
+	.prose :global(a:hover) {
+		background-size: 0% 1px;
+		background-position: 100% 100%;
 	}
 	.prose :global(strong) {
-		@apply font-bold text-foreground;
+		@apply font-medium text-foreground;
+	}
+	.prose :global(em) {
+		font-style: italic;
 	}
 	.prose :global(code) {
-		@apply font-mono text-sm bg-muted px-1.5 py-0.5 border border-border;
+		@apply font-mono text-[13px] bg-muted px-1.5 py-0.5 rounded text-foreground;
 	}
 	.prose :global(pre) {
-		@apply bg-muted border-3 border-black dark:border-white p-6 overflow-x-auto mb-6 mt-4;
+		@apply bg-card border border-border p-6 overflow-x-auto mb-6 mt-4 rounded-lg;
 	}
 	.prose :global(pre code) {
-		@apply bg-transparent border-0 p-0;
+		@apply bg-transparent border-0 p-0 text-[13px];
 	}
 	.prose :global(ul) {
-		@apply mb-6 pl-6 list-disc space-y-2;
+		@apply mb-6 pl-6 list-disc space-y-2 marker:text-clay;
 	}
 	.prose :global(ol) {
-		@apply mb-6 pl-6 list-decimal space-y-2;
-	}
-	.prose :global(li) {
-		@apply text-foreground/85;
+		@apply mb-6 pl-6 list-decimal space-y-2 marker:text-clay marker:font-mono;
 	}
 	.prose :global(blockquote) {
-		@apply border-l-4 border-coral pl-6 italic text-muted-foreground my-6;
+		@apply border-l-2 border-clay pl-6 italic text-foreground/70 my-8 font-display text-xl leading-relaxed;
 	}
 	.prose :global(hr) {
-		@apply border-t-2 border-border my-12;
+		@apply border-0 border-t border-border my-12;
+	}
+	.prose :global(img) {
+		@apply rounded-lg my-8;
 	}
 </style>

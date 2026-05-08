@@ -9,7 +9,7 @@ interface Props {
 
 const {
 	title = 'Dušan Osmokrović — Software Engineer',
-	description = 'Software engineer who builds things for the web. Portfolio of Dušan Osmokrović.',
+	description = 'Software engineer building thoughtful, useful products for the web.',
 } = Astro.props;
 ---
 
@@ -28,8 +28,15 @@ const {
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" />
 	</head>
-	<body>
+	<body class="relative">
+		<div class="pointer-events-none fixed inset-0 -z-10 bg-atmosphere"></div>
+		<div class="pointer-events-none fixed inset-0 -z-10 bg-grain mix-blend-multiply dark:mix-blend-screen"></div>
+		<div id="cursor-ring" class="cursor-ring hidden"></div>
+		<div id="cursor-dot" class="cursor-dot hidden"></div>
 		<Header />
 		<main>
 			<slot />
@@ -43,14 +50,58 @@ const {
 			(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 		if (theme === 'dark') document.documentElement.classList.add('dark');
 	})();
+
+	(function customCursor() {
+		if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+		var dot = document.getElementById('cursor-dot');
+		var ring = document.getElementById('cursor-ring');
+		if (!dot || !ring) return;
+		document.body.classList.add('has-cursor');
+		dot.classList.remove('hidden');
+		ring.classList.remove('hidden');
+
+		var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+		var rx = mx, ry = my;
+		var dx = mx, dy = my;
+
+		document.addEventListener('mousemove', function(e) {
+			mx = e.clientX; my = e.clientY;
+		});
+		document.addEventListener('mouseleave', function() {
+			dot.style.opacity = '0'; ring.style.opacity = '0';
+		});
+		document.addEventListener('mouseenter', function() {
+			dot.style.opacity = '1'; ring.style.opacity = '1';
+		});
+		document.addEventListener('mousedown', function() { document.body.classList.add('cursor-down'); });
+		document.addEventListener('mouseup', function() { document.body.classList.remove('cursor-down'); });
+
+		var hoverSel = 'a, button, [role="button"], input, textarea, select, label, [data-cursor-hover]';
+		document.addEventListener('mouseover', function(e) {
+			if (e.target.closest && e.target.closest(hoverSel)) document.body.classList.add('cursor-hover');
+		});
+		document.addEventListener('mouseout', function(e) {
+			if (e.target.closest && e.target.closest(hoverSel)) document.body.classList.remove('cursor-hover');
+		});
+
+		function tick() {
+			dx += (mx - dx) * 0.6;
+			dy += (my - dy) * 0.6;
+			rx += (mx - rx) * 0.18;
+			ry += (my - ry) * 0.18;
+			dot.style.transform = 'translate3d(' + dx + 'px,' + dy + 'px,0) translate(-50%,-50%)';
+			ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0) translate(-50%,-50%)';
+			requestAnimationFrame(tick);
+		}
+		tick();
+	})();
 </script>
 
 <style>
-	html,
-	body {
+	html, body {
 		margin: 0;
 		width: 100%;
-		height: 100%;
+		min-height: 100%;
 		overflow-x: hidden;
 	}
 </style>
